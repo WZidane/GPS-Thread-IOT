@@ -10,8 +10,8 @@ services:
     depends_on:
       - mongodb
     networks:
-      - frontend_net
       - backend_net
+      - iot_net
 
   frontend:
     build: ./frontend
@@ -24,7 +24,7 @@ services:
     depends_on:
       - backend
     networks:
-      - frontend_net
+      - iot_net
 
   mongodb:
      image: mongo:latest
@@ -38,11 +38,31 @@ services:
        - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
      networks:
        - backend_net
+       - iot_net
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    entrypoint: >
+      sh -c "
+      chown -R mosquitto: /mosquitto/data /mosquitto/log /mosquitto/config &&
+      chmod -R 0700 /mosquitto/data &&
+      exec /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+      "
+    networks:
+      - iot_net
   
 volumes:
   mongo_data:
   
 networks:
-  frontend_net:
   backend_net:
     internal: true
+  iot_net:
