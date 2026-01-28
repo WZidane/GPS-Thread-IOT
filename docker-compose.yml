@@ -63,6 +63,12 @@ volumes:
   mongo_data:
   
 networks:
+  thread-net:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: fd12:3456:789a::/64
   backend_net:
     internal: true
   iot_net:

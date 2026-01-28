@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+        <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        {% block head_scripts %}
+        {% endblock %}
+     </head>
+    <body>
+        {% block content%}
+        {% endblock %}
+
+        {% include 'footer.html' %}
+
+        {% block footer_scripts %}
+        {% endblock %}
+    </body>
+</html>

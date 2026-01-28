@@ -1,5 +1,5 @@
 from flask import Flask
-from .users import users
+from .home import home
 
 def register_blueprints(app: Flask):
-	app.register_blueprint(users)
+	app.register_blueprint(home)
